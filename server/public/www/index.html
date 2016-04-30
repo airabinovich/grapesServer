@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>Two way Data binding Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	<link href="www/css/style.css" rel="stylesheet">
+	<script src="www/js/lib/jquery/dist/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="/www/js/lib/highcharts/js/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="/www/js/lib/crypto/rollups/sha1.js"></script>
+    <script src="/www/js/lib/angular/angular.js"></script>
+	<script src="/www/js/lib/angular-cookies/angular-cookies.js"></script>
+	<script src="/www/js/lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/www/js/app.js"></script>
+    <script src="/www/js/controllers/HomeController.js"></script>
+	<script src="/www/js/controllers/RegisterController.js"></script>
+	<script src="/www/js/controllers/LoginController.js"></script>
+	<script src="/www/js/services/authenticationService.js"></script>
+	<script src="/www/js/controllers/FlashService.js"></script>
+  </head>
+    <body ng-app="grapesApp">
+	<div>
+		<img  class="grapeslogo" src="www/resources/images/grapesLogo.png" alt="Grapes" style="width:304px;height:304px;">
+	</div>
+	<div class="container">
+
+    <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+    <div ui-view></div>
+	
+	</div>
+
+  </body>
+</html>
