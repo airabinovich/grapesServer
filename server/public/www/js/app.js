@@ -1,4 +1,4 @@
-var app=angular.module('grapesApp',['ui.router','ngCookies'])
+var app=angular.module('grapesApp',['ui.router','ngCookies','highcharts-ng'])
 
 .config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider

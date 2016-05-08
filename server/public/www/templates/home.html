@@ -11,6 +11,12 @@
         </div>
 
       </div>
-	  	  --> 
-	  	<div id="graph_container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	  
+	  		<div id="graph_container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	  			
+				
+	  	  -->   
+        <div ng-repeat="graph in Graphs">
+            <highchart id="chart1" config="graph.chart" class="span10"></highchart>
+        </div>
     </div>

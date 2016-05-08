@@ -154,23 +154,32 @@ app.post('/api/authenticate',function(req,res){
 
 app.post('/api/topSecret',function(req,res){
 	console.log(req.body);
-	//connection.query("INSERT ",function(err,rows){
-	//if(err)
-	//{
-	//	console.log("Problem with MySQL"+err);
-	//}
-	res.status(200).send('OK');
+	var error=false;
+	req.body.forEach(function(measure){
+		var queryString= "INSERT INTO mediciones (valor,fecha,idMagnitud,idSensor) Select "+measure.valor+",\""+measure.fecha_hora+"\","+measure.id_magnitud+", (Select idSensor from sensores as s join campos as c on c.idCampo=s.idCampo where  c.uuid="+measure.uuid_campo + " and s.address="+measure.sensor_address+")";
+		connection.query(queryString,function(err,rows){
+			if(err)
+			{
+				console.log("Problem with MySQL"+err);
+				error=true;
+			}			
+		});
+	});
+	res.status(200).send({ success: !error });
 });
 
-app.get('/api/load/temps',function(req,res){
-	connection.query("SELECT date,value from sensor_temps",function(err,rows){
+app.post('/api/load/temps',function(req,res){
+	console.log(req.body);
+	var queryString="	SELECT c.idCampo,s.idSensor,m.fecha,m.valor,mag.nombre,mag.unidad from usuarios as u join duenios as d on u.idUsuario=d.idUsuario join campoperteneceaduenio as cpd  on d.idDuenio=cpd.idDuenio join campos as c on cpd.idCampo=c.idCampo join sensores as s on c.idCampo=s.idCampo join mediciones as m on s.idSensor=m.idSensor join magnitudes as mag on m.idMagnitud=mag.idMagnitud where u.username=\""+req.body.username+"\"";
+	connection.query(queryString,function(err,rows){
 	if(err)
 	{
 	console.log("Problem with MySQL"+err);
 	}
 	else
 	{
-	res.end(JSON.stringify(rows));
+	console.log(JSON.stringify(rows));
+	res.end(JSON.stringify(rows));	
 	}
 	});
 });

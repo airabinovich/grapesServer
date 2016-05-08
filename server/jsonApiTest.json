@@ -1,0 +1,13 @@
+[{
+	"uuid_campo": 2,
+	"unidad": "C",
+	"fecha_hora": "2016-04-30 20:41:55",
+	"magnitud": "Temperatura",
+	"valor": 1
+}, {
+	"id_campo": 2,
+	"unidad": "C",
+	"fecha_hora": "2016-04-30 20:43:00",
+	"magnitud": "Temperatura",
+	"valor": 1
+}]
