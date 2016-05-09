@@ -49,6 +49,13 @@ app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization");
+  next();
+});
+
 // Session-persisted message middleware
 app.use(function(req, res, next){
   var err = req.session.error,
@@ -79,41 +86,8 @@ console.log("Connected with Database");
 }
 });
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-
 app.get('/',function(req,res){
-res.sendfile('public/www/index.html');
-});
-
-/*
-//sends the request through our local login/signin strategy, and if successful takes user to homepage, otherwise returns then to signin page
-app.post('/api/authenticate', passport.authenticate('local-signin', { 
-  successRedirect: '/home',
-  failureRedirect: '/login'
-  })
-);
-*/
-/*
-* Here we will call Database.
-* Fetch news from table.
-* Return it in JSON.
-*/
-app.get('/api/load',function(req,res){
-	connection.query("SELECT * from sensor_info",function(err,rows){
-	if(err)
-	{
-	console.log("Problem with MySQL"+err);
-	}
-	else
-	{
-	res.end(JSON.stringify(rows));
-	}
-	});
+	res.sendfile('public/www/index.html');
 });
 
 app.post('/api/register',function(req,res){
@@ -141,7 +115,6 @@ app.post('/api/authenticate',function(req,res){
 		}
 		else{
 			if(typeof rows !== 'undefined' && rows.length > 0){
-				console.log(rows);
 				res.status(200).send({ success: true });
 			}
 			else{
@@ -170,7 +143,7 @@ app.post('/api/topSecret',function(req,res){
 
 app.post('/api/load/temps',function(req,res){
 	console.log(req.body);
-	var queryString="	SELECT c.idCampo,s.idSensor,m.fecha,m.valor,mag.nombre,mag.unidad from usuarios as u join duenios as d on u.idUsuario=d.idUsuario join campoperteneceaduenio as cpd  on d.idDuenio=cpd.idDuenio join campos as c on cpd.idCampo=c.idCampo join sensores as s on c.idCampo=s.idCampo join mediciones as m on s.idSensor=m.idSensor join magnitudes as mag on m.idMagnitud=mag.idMagnitud where u.username=\""+req.body.username+"\"";
+	var queryString="SELECT c.idCampo,s.idSensor,m.fecha,m.valor,mag.nombre,mag.unidad from usuarios as u join duenios as d on u.idUsuario=d.idUsuario join campoperteneceaduenio as cpd  on d.idDuenio=cpd.idDuenio join campos as c on cpd.idCampo=c.idCampo join sensores as s on c.idCampo=s.idCampo join mediciones as m on s.idSensor=m.idSensor join magnitudes as mag on m.idMagnitud=mag.idMagnitud where u.username=\""+req.body.username+"\"";
 	connection.query(queryString,function(err,rows){
 	if(err)
 	{
@@ -178,7 +151,6 @@ app.post('/api/load/temps',function(req,res){
 	}
 	else
 	{
-	console.log(JSON.stringify(rows));
 	res.end(JSON.stringify(rows));	
 	}
 	});

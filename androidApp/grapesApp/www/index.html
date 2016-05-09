@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+	<script src="js/lib/jquery/dist/jquery.js"></script>
+    <script src="js/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="js/lib/highcharts/js/highcharts.js"></script>
+	<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="js/lib/crypto/rollups/sha1.js"></script>
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!--<script src="js/lib/angular/angular.js"></script> -->
+	<script src="js/lib/angular-cookies/angular-cookies.js"></script>
+	<script src="js/lib/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="js/lib/highcharts/js/highcharts-ng.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/HomeController.js"></script>
+	<script src="js/controllers/RegisterController.js"></script>
+	<script src="js/controllers/LoginController.js"></script>
+	<script src="js/services/authenticationService.js"></script>
+	<script src="js/controllers/FlashService.js"></script>
+  </head>
+  <body ng-app="grapesApp">
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">GrapesApp</h1>
+      </ion-header-bar>
+      <ion-content>
+	  	<div>
+			<img  class="grapeslogo" src="resources/images/grapesLogo.png" alt="Grapes" style="width:304px;height:304px;">
+		</div>
+		<div class="container">
+			<!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+			<div ui-view></div>		
+		</div>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
