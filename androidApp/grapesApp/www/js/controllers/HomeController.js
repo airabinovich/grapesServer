@@ -28,29 +28,36 @@ loadHistoricTemperatures();
 					
 					var sensorById= $filter('filter')(campoById.sensores, {id: item.idSensor })[0];
 					if(sensorById == null){
-						campoById.sensores.push({id: item.idSensor , measures:[] , magnitude: item.nombre, unity: item.unidad})
+						campoById.sensores.push({id: item.idSensor , magnitudes:[] });
 						sensorById= $filter('filter')(campoById.sensores, {id: item.idSensor })[0];
 					}
-					sensorById.measures.push(value);
+					var measuresById= $filter('filter')(sensorById.magnitudes, {id: item.idMagnitud})[0];
+					console.log(item)
+					if(measuresById == null){	
+						sensorById.magnitudes.push({id: item.idMagnitud, measures:[], magnitude: item.nombre, unit: item.unidad  });
+						measuresById = $filter('filter')(sensorById.magnitudes, {id: item.idMagnitud})[0];
+					}
+					measuresById.measures.push(value);
 				});
 				var chartsArray=[];
+				console.log(JSON.stringify(graphData));
 				$scope.graphicsData = graphData;
 				graphData.forEach(function(item,index){
 					newCharts=[];
 					item.sensores.forEach(function(sensor,ind){
-						
-						var newChartByMagnitude= $filter('filter')(newCharts, {magnitude: sensor.magnitude })[0]
-						if(newChartByMagnitude == null){
-							newChart= null;
-							newChart= {title:"Field "+index, chart: JSON.parse(JSON.stringify($scope.chartConfig))};
-							newChart.chart.title={text: "Field "+index };
-							newCharts.push({magnitude: sensor.magnitude, chart:newChart});
-							newChartByMagnitude= $filter('filter')(newCharts, {magnitude: sensor.magnitude })[0];
-							
-						}
-						newChartByMagnitude.chart.chart.series.push({ name:"sensor:"+sensor.id, data: sensor.measures});
-						newChartByMagnitude.chart.chart.yAxis={ title: {text: sensor.magnitude }};
-						newChartByMagnitude.chart.chart.options.tooltip.pointFormat='<b>{point.y:.2f} '+ sensor.unity +' </b>';
+						sensor.magnitudes.forEach(function(mag,magIndex){
+							var newChartByMagnitude= $filter('filter')(newCharts, {magnitude: mag.magnitude })[0]
+							if(newChartByMagnitude == null){
+								newChart= null;
+								newChart= {title:"Field "+index, chart: JSON.parse(JSON.stringify($scope.chartConfig))};
+								newChart.chart.title={text: "Field "+index };
+								newCharts.push({magnitude: mag.magnitude, chart:newChart});
+								newChartByMagnitude= $filter('filter')(newCharts, {magnitude: mag.magnitude })[0];								
+							}
+							newChartByMagnitude.chart.chart.series.push({ name:"sensor:"+sensor.id, data: mag.measures});
+							newChartByMagnitude.chart.chart.yAxis={ title: {text: mag.magnitude }};
+							newChartByMagnitude.chart.chart.options.tooltip.pointFormat='<b>{point.y:.2f} '+ mag.unit +' </b>';
+						});
 					});
 					
 					newCharts.forEach(function(newGraph){
