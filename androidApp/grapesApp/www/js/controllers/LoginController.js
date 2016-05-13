@@ -11,10 +11,9 @@ app.controller('LoginController', LoginController);
         function login() {
             vm.dataLoading = true;
 			var passHash= CryptoJS.SHA1(vm.password).toString()
-            AuthenticationService.Login(vm.username, passHash, function (response){
-				console.log("entree");
+            AuthenticationService.Login(vm.username, passHash,vm.serverIp, function (response){
                 if(response.success) {
-                    AuthenticationService.SetCredentials(vm.username, vm.password);
+                    AuthenticationService.SetCredentials(vm.username, vm.password, vm.serverIp);
                     $location.path('home');
                 } else {
                     FlashService.Error(response.message);

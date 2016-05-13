@@ -15,19 +15,21 @@
  
         return service;
  
-        function Login(username, password, callback) {
-            $http.post('http://192.168.0.5/api/authenticate', { username: username, password: password }).success(function (response) {
+        function Login(username, password,serverIp, callback) {
+			var apiUrl= 'http://'+serverIp+'/api/authenticate';
+            $http.post(apiUrl, { username: username, password: password }).success(function (response) {
                     callback(response);
                });
         }
  
-        function SetCredentials(username, password){
+        function SetCredentials(username, password, serverIp){
             var authdata = Base64.encode(username + ':' + password);
             $rootScope.globals = {
                 currentUser: {
                     username: username,
                     authdata: authdata
-                }
+                },
+				serverIp: serverIp
             };
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
             $cookieStore.put('globals', $rootScope.globals);

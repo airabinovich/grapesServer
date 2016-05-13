@@ -10,9 +10,12 @@ loadHistoricTemperatures();
 	$scope.Graphs=[];
 	var oldGraph=[];
 	$scope.username= $rootScope.globals.currentUser.username;
+	var ip= $rootScope.globals.serverIp;
 	
 	function loadHistoricTemperatures(){
-		$http.post('http://192.168.0.5/api/load/temps',$rootScope.globals.currentUser).success(function(data){
+		console.log($rootScope);
+		var apiUrl= 'http://'+$rootScope.globals.serverIp+'/api/load/temps'
+		$http.post(apiUrl,$rootScope.globals.currentUser).success(function(data){
 			graphData=[];
 			data.forEach(function(item,index){
 			        var dateTime = item.fecha.split("T");
@@ -32,7 +35,6 @@ loadHistoricTemperatures();
 						sensorById= $filter('filter')(campoById.sensores, {id: item.idSensor })[0];
 					}
 					var measuresById= $filter('filter')(sensorById.magnitudes, {id: item.idMagnitud})[0];
-					console.log(item)
 					if(measuresById == null){	
 						sensorById.magnitudes.push({id: item.idMagnitud, measures:[], magnitude: item.nombre, unit: item.unidad  });
 						measuresById = $filter('filter')(sensorById.magnitudes, {id: item.idMagnitud})[0];
@@ -40,7 +42,6 @@ loadHistoricTemperatures();
 					measuresById.measures.push(value);
 				});
 				var chartsArray=[];
-				console.log(JSON.stringify(graphData));
 				$scope.graphicsData = graphData;
 				graphData.forEach(function(item,index){
 					newCharts=[];

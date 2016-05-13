@@ -5,7 +5,8 @@ app.controller('RegisterController', function RegisterController($scope,$http,$l
             vm.dataLoading = true;
 			var passHash= CryptoJS.SHA1($scope.user.password).toString();
 			$scope.user.password= passHash;
-			$http.post('http://192.168.0.5/api/register', $scope.user).success( function(){           
+			var apiUrl='http://'+$rootScope.globals.serverIp+'/api/register';
+			$http.post(apiUrl, $scope.user).success( function(){           
                         $location.path('/');
                 });
         }
